@@ -2,8 +2,8 @@
 This is a learning project"""
 import os
 import pygame
-from tower import Tower
-from enemy import Enemy
+from tower import Defender
+from enemy import Hostile
 
 def run_game():
     """Runs the game"""
@@ -18,9 +18,9 @@ def run_game():
         """Update the game display"""
         screen.fill((0, 0, 0))
         screen.blit(background, (0, 0))
-        for tower in Tower.towers:
+        for tower in Defender.towers:
             tower.draw()
-        for enemy in Enemy.enemies:
+        for enemy in Hostile.enemies:
             enemy.draw()
         pygame.display.update()
     coord_list = []
@@ -34,18 +34,20 @@ def run_game():
                 if event.key == pygame.K_ESCAPE:
                     run = False
                 if event.key == pygame.K_SPACE:
-                    Enemy('enemy.png', Enemy.path[0][0], Enemy.path[0][1], screen).spawn()
+                    Hostile('enemy.png', Hostile.path[0][0], Hostile.path[0][1], screen).spawn()
                 if event.key == pygame.K_1 or event.key == pygame.K_2:
-                    tower_type = Tower.selection_dict[event.key]
+                    tower_type = Defender.selection_dict[event.key]
             if event.type == pygame.MOUSEBUTTONDOWN and tower_type != 0:
                 #to prevent game from breaking if no tower selected.
                 mouse_x, mouse_y = pygame.mouse.get_pos()
-                Tower(tower_type, mouse_x, mouse_y, screen).create_tower()
+                Defender(tower_type, mouse_x, mouse_y, screen).create_tower()
             elif event.type == pygame.MOUSEBUTTONDOWN and tower_type == 0:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 coord_list.append((mouse_x, mouse_y))
-        for enemy in Enemy.enemies:
+        for enemy in Hostile.enemies:
             enemy.move()
+            for tower in Defender.towers:
+                tower.attack(enemy)
         update_display()
     print(coord_list)
     pygame.quit()

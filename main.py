@@ -3,6 +3,7 @@ This is a learning project"""
 import os
 import pygame
 from tower import Tower
+from enemy import Enemy
 
 def run_game():
     """Runs the game"""
@@ -19,8 +20,10 @@ def run_game():
         screen.blit(background, (0, 0))
         for tower in Tower.towers:
             tower.draw()
+        for enemy in Enemy.enemies:
+            enemy.draw()
         pygame.display.update()
-
+    coord_list = []
     run = True
     tower_type = 0
     while run:
@@ -30,15 +33,21 @@ def run_game():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     run = False
+                if event.key == pygame.K_SPACE:
+                    Enemy('enemy.png', Enemy.path[0][0], Enemy.path[0][1], screen).spawn()
                 if event.key == pygame.K_1 or event.key == pygame.K_2:
                     tower_type = Tower.selection_dict[event.key]
             if event.type == pygame.MOUSEBUTTONDOWN and tower_type != 0:
                 #to prevent game from breaking if no tower selected.
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 Tower(tower_type, mouse_x, mouse_y, screen).create_tower()
-
+            elif event.type == pygame.MOUSEBUTTONDOWN and tower_type == 0:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                coord_list.append((mouse_x, mouse_y))
+        for enemy in Enemy.enemies:
+            enemy.move()
         update_display()
-
+    print(coord_list)
     pygame.quit()
 
 run_game()

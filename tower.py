@@ -29,7 +29,8 @@ class Tower:
 
     def draw(self):
         """Draws the tower on the screen using the specified image at coordinates x and y"""
-        self.display_surface.blit(self.img, (self.x_coord - (self.tower_scale//2), self.y_coord - (self.tower_scale//2)))
+        self.display_surface.blit(self.img, (self.x_coord - (self.tower_scale//2),
+                                             self.y_coord - (self.tower_scale//2)))
 
  #   def attack(self):
  #       """Causes the tower to attack enemies in range

@@ -1,8 +1,9 @@
+"""Contains all the methods to calculate projectile travel and collision"""
 import os
 import pygame
 
 class Projectile:
-
+    """Draw, move, and detect collision of projectiles"""
     def __init__(self, img, x, y, display_surface):
         self.img_file = img
         self.img = pygame.image.load(os.path.join('assets', 'towers', self.img_file))
@@ -11,6 +12,7 @@ class Projectile:
         self.display_surface = display_surface
 
     def draw(self):
+        """Draws the projectile onto the screen"""
         self.display_surface.blit(self.img, (self.ammo_rect))
 
     def move(self):

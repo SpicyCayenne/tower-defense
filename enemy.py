@@ -18,27 +18,30 @@ class Hostile:
             (651, 220), (673, 229), (690, 236), (706, 243), (725, 250), (744, 260),
             (766, 259), (788, 252), (797, 248)]
 
-    def __init__(self, img, x, y, display_surface):
+    def __init__(self, img, x, y, speed, display_surface):
         self.img_file = img
         self.img = pygame.image.load(os.path.join('assets', 'enemies', self.img_file))
         self.hostile_rect = self.img.get_rect()
         self.hostile_rect.center = (x, y)
-        self.x_spawn, self.x_coord = x, x
-        self.y_spawn, self.y_coord = y, y
+        self.x_coord = x
+        self.y_coord = y
+        self.speed = speed
         self.display_surface = display_surface
         self.waypoints = itertools.cycle(Hostile.path)
         self.target = next(self.waypoints)
-        self.speed = 0.5
 
     def spawn(self):
         """Spawns new enemy"""
-        Hostile.enemies.append(Hostile(self.img_file,
-                                       self.x_spawn, self.y_spawn, self.display_surface))
+        Hostile.enemies.append(Hostile(self.img_file, self.x_coord, self.y_coord,
+                                       self.speed, self.display_surface))
 
     def move(self):
         """Moves the enemy down the path"""
         distance_to_target = math.sqrt((self.x_coord - self.target[0])**2 +
                                        (self.y_coord - self.target[1])**2)
+        end = Hostile.path[-1]
+        distance_to_end = math.sqrt((self.x_coord - end[0])**2 +
+                                    (self.y_coord - end[1])**2)
         if distance_to_target <= 0.5 and next(self.waypoints) != Hostile.path[0]:
             self.target = next(self.waypoints)
         new_x, new_y = self.x_coord, self.y_coord
@@ -52,7 +55,7 @@ class Hostile:
             new_y = self.y_coord - self.speed
         self.x_coord, self.y_coord = new_x, new_y
         self.hostile_rect.center = self.x_coord, self.y_coord
-        if (self.x_coord, self.y_coord) == Hostile.path[-1]:
+        if distance_to_end <= 10:
             Hostile.enemies.remove(self)
 
     def draw(self):

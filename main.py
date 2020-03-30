@@ -14,6 +14,10 @@ def run_game():
     background = pygame.Surface(screen.get_size()).convert()
     background = pygame.image.load(os.path.join('assets', 'levels', 'level0_bg.png'))
 
+    elf_tower_attack = dwarf_tower_attack = 26
+    pygame.time.set_timer(elf_tower_attack, 800)
+    pygame.time.set_timer(dwarf_tower_attack, 2000)
+
     def update_display():
         """Update the game display"""
         screen.fill((0, 0, 0))
@@ -30,11 +34,15 @@ def run_game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            if event.type == 26:
+                for tower in Defender.towers:
+                    tower.attack()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     run = False
                 if event.key == pygame.K_SPACE:
-                    Hostile('enemy.png', Hostile.path[0][0], Hostile.path[0][1], screen).spawn()
+                    Hostile('enemy.png', Hostile.path[0][0], Hostile.path[0][1], 0.25,
+                            screen).spawn()
                 if event.key == pygame.K_1 or event.key == pygame.K_2:
                     tower_type = Defender.selection_dict[event.key]
             if event.type == pygame.MOUSEBUTTONDOWN and tower_type != 0:
@@ -46,8 +54,6 @@ def run_game():
                 coord_list.append((mouse_x, mouse_y))
         for enemy in Hostile.enemies:
             enemy.move()
-            for tower in Defender.towers:
-                tower.attack(enemy)
         update_display()
     print(coord_list)
     pygame.quit()

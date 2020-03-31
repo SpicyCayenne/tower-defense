@@ -12,3 +12,5 @@ class Player:
     def lose_life(self):
         """Decrements the player's life total"""
         self.lives -= 1
+
+PLAYER = Player(0, 20)

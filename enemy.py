@@ -3,6 +3,9 @@ import itertools
 import math
 import os
 import pygame
+from player import PLAYER
+#from main import PLAYER_1
+
 #from pygame import Vector2
 
 class Hostile:
@@ -65,6 +68,6 @@ class Hostile:
     def damage(self, attack_power):
         """deals damage to the creep, de-spawns it if at or below 0 health"""
         self.health -= attack_power
-        if self.health <= 0:
-            if self in Hostile.enemies:
-                Hostile.enemies.remove(self)
+        if self.health <= 0 and self in Hostile.enemies:
+            Hostile.enemies.remove(self)
+            PLAYER.update_score(1)

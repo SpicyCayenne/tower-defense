@@ -4,11 +4,14 @@ import os
 import random
 import pygame
 import level
+from player import PLAYER
 from tower import Defender
 from enemy import Hostile
 from projectiles import Projectile
 
 #coords = [] #this is used for quickly getting coordinates
+
+
 def run_game():
     """Runs the game"""
     pygame.init()
@@ -27,6 +30,9 @@ def run_game():
     background = pygame.Surface(screen.get_size()).convert()
     bg_file = this_level.load()[0]
     background = pygame.image.load(os.path.join(bg_file))
+
+    score_font = pygame.font.Font('freesansbold.ttf', 32)
+
     def update_display():
         """Update the game display"""
         screen.fill((0, 0, 0))
@@ -37,7 +43,12 @@ def run_game():
             enemy.draw()
         for ammo in Projectile.fired:
             ammo.draw()
+        show_score(10, 10)
         pygame.display.update()
+
+    def show_score(score_x, score_y):
+        score = score_font.render("Score: " + str(PLAYER.score), True, (255, 255, 255))
+        screen.blit(score, (score_x, score_y))
 
     run = True
     tower_type = 0
@@ -52,7 +63,6 @@ def run_game():
                     Hostile('enemy.png', Hostile.path[0][0], Hostile.path[0][1],
                             0.25, 100, screen).spawn()
                     this_level.enemy_count -= 1
-                print(this_level.enemy_count)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     run = False

@@ -44,11 +44,12 @@ class Hostile:
             self.target = next(self.waypoints)
         else:
             normalize = (movement_vector[0]/distance_to_target,
-                            movement_vector[1]/distance_to_target)
+                         movement_vector[1]/distance_to_target)
             direction = normalize
-            speed_x, speed_y = direction * 1
-            self.x_coord += speed_x
-            self.y_coord += speed_y
+            speed_x = direction[0]
+            speed_y = direction[1]
+            self.x_coord += speed_x * self.speed
+            self.y_coord += speed_y * self.speed
             self.hostile_rect.center = (self.x_coord, self.y_coord)
         end = Hostile.path[-1]
         distance_to_end = math.sqrt((self.x_coord - end[0])**2 +

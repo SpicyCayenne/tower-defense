@@ -30,7 +30,7 @@ def run_game():
         for ammo in Projectile.fired:
             ammo.draw()
         pygame.display.update()
-    coord_list = []
+
     run = True
     tower_type = 0
     while run:
@@ -52,13 +52,11 @@ def run_game():
                 #to prevent game from breaking if no tower selected.
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 Defender(tower_type, mouse_x, mouse_y, screen).create_tower()
-            elif event.type == pygame.MOUSEBUTTONDOWN and tower_type == 0:
-                mouse_x, mouse_y = pygame.mouse.get_pos()
-                coord_list.append((mouse_x, mouse_y))
         for enemy in Hostile.enemies:
             enemy.move()
         for projectile in Projectile.fired:
             projectile.move()
+            projectile.collision()
         update_display()
     pygame.quit()
 

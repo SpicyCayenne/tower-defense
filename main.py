@@ -1,9 +1,11 @@
 """Homebrew tower defense game using pygame and object oriented programming.
 This is a learning project"""
+import math
 import os
 import random
 import pygame
 import level
+from level import Level
 from player import PLAYER
 from tower import Defender
 from enemy import Hostile
@@ -38,6 +40,7 @@ def run_game():
         """Update the game display"""
         screen.fill((0, 0, 0))
         screen.blit(background, (0, 0))
+        this_level.draw_towers(screen)
         for tower in Defender.towers:
             tower.draw()
         for enemy in Hostile.enemies:
@@ -89,7 +92,10 @@ def run_game():
             if event.type == pygame.MOUSEBUTTONDOWN and tower_type != 0:
                 #to prevent game from breaking if no tower selected.
                 mouse_x, mouse_y = pygame.mouse.get_pos()
-                Defender(tower_type, mouse_x, mouse_y, screen).create_tower()
+                for loc in Level.tower_coords:
+                    distance = math.sqrt((mouse_x - loc[0])**2 + (mouse_y - loc[1])**2)
+                    if distance <= 20:
+                        Defender(tower_type, loc[0], loc[1], screen).create_tower()
             elif event.type == pygame.MOUSEBUTTONDOWN and tower_type == 0:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 #coords.append((mouse_x, mouse_y))

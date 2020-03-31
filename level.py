@@ -1,7 +1,10 @@
 """Contains all level information"""
+import pygame
+
 class Level:
     """Class used to build each level"""
     tower_coords = []
+    used_towers = []
     spawn_coords = []
     end_point_coords = []
     def __init__(self, tower_locations, bg_image, enemy_spawns,
@@ -14,18 +17,22 @@ class Level:
         self.spawn_rate = spawn_rate
 
     def load(self):
-        """Loads the tower and enemy coordinates"""
+        """returns coordinate information and image"""
         for loc in self.tower_locations:
             self.tower_coords.append(loc)
-            #draw.a.square.on.screen.at.each.point() #there's a way to do this
 
         for loc in self.enemy_spawns:
             self.spawn_coords.append(loc)
 
         for loc in self.end_points:
             self.end_point_coords.append(loc)
-
         return self.bg_image, self.tower_coords, self. spawn_coords, self.end_point_coords
+
+    def draw_towers(self, surface):
+        """draws tower spawn locations"""
+        for loc in Level.tower_coords:
+            pygame.draw.rect(surface, (255, 255, 255), (loc[0], loc[1], 20, 20))
+
 
 LEVEL_0 = Level([(38, 463), (179, 465), (292, 407), (370, 306), (517, 173), (752, 213),
                  (593, 250), (257, 536), (30, 593)], 'assets/levels/level_0_bg.png',

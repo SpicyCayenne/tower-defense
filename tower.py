@@ -2,11 +2,8 @@
 import math
 import os
 import pygame
-from scaling import get_scaling_info
 from enemy import Hostile
 from projectiles import Projectile
-
-get_scaling_info()
 
 class Defender:
     """Defender information"""
@@ -30,7 +27,7 @@ class Defender:
 
     def draw(self):
         """Draws the tower on the screen using the specified image at coordinates x and y"""
-        self.display_surface.blit(self.img, (self.tower_rect))
+        self.display_surface.blit(self.img, (self.tower_rect.center))
 
     def attack(self):
         """Causes the tower to attack enemies in range"""

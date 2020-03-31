@@ -4,6 +4,7 @@ import os
 import pygame
 from tower import Defender
 from enemy import Hostile
+from projectiles import Projectile
 
 def run_game():
     """Runs the game"""
@@ -26,6 +27,8 @@ def run_game():
             tower.draw()
         for enemy in Hostile.enemies:
             enemy.draw()
+        for ammo in Projectile.fired:
+            ammo.draw()
         pygame.display.update()
     coord_list = []
     run = True
@@ -54,8 +57,9 @@ def run_game():
                 coord_list.append((mouse_x, mouse_y))
         for enemy in Hostile.enemies:
             enemy.move()
+        for projectile in Projectile.fired:
+            projectile.move()
         update_display()
-    print(coord_list)
     pygame.quit()
 
 run_game()

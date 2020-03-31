@@ -4,6 +4,7 @@ import os
 import pygame
 from scaling import get_scaling_info
 from enemy import Hostile
+from projectiles import Projectile
 
 get_scaling_info()
 
@@ -39,5 +40,7 @@ class Defender:
             distance = math.sqrt((self.x_coord - target.x_coord)**2 +
                                  (self.y_coord - target.y_coord)**2)
             if distance <= self.attack_radius:
-                print("Fire" + str(target))
+                Projectile.fired.append(Projectile('ammo.png', self.x_coord,
+                                                   self.y_coord, self.display_surface,
+                                                   target.x_coord, target.y_coord))
                 break

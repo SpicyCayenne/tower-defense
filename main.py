@@ -31,7 +31,7 @@ def run_game():
     bg_file = this_level.load()[0]
     background = pygame.image.load(os.path.join(bg_file))
 
-    score_font = pygame.font.Font('freesansbold.ttf', 32)
+    score_font = lives_font = pygame.font.Font('freesansbold.ttf', 32)
 
     def update_display():
         """Update the game display"""
@@ -44,11 +44,16 @@ def run_game():
         for ammo in Projectile.fired:
             ammo.draw()
         show_score(10, 10)
+        show_lives(650, 10)
         pygame.display.update()
 
     def show_score(score_x, score_y):
         score = score_font.render("Score: " + str(PLAYER.score), True, (255, 255, 255))
         screen.blit(score, (score_x, score_y))
+
+    def show_lives(lives_x, lives_y):
+        lives_text = lives_font.render("Lives: " + str(PLAYER.lives), True, (255, 0, 0))
+        screen.blit(lives_text, (lives_x, lives_y))
 
     run = True
     tower_type = 0

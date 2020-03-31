@@ -58,8 +58,9 @@ class Hostile:
         end = Hostile.path[-1]
         distance_to_end = math.sqrt((self.x_coord - end[0])**2 +
                                     (self.y_coord - end[1])**2)
-        if distance_to_end <= 10:
+        if distance_to_end <= 5:
             Hostile.enemies.remove(self)
+            PLAYER.lose_life()
 
     def draw(self):
         """Draws image on the screen"""

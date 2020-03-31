@@ -65,6 +65,6 @@ class Hostile:
     def damage(self, attack_power):
         """deals damage to the creep, de-spawns it if at or below 0 health"""
         self.health -= attack_power
-        print(self.health)
         if self.health <= 0:
-            Hostile.enemies.remove(self)
+            if self in Hostile.enemies:
+                Hostile.enemies.remove(self)

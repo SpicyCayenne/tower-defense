@@ -2,7 +2,6 @@
 import math
 import os
 import pygame
-from enemy import Hostile
 
 class Projectile:
     """Draw, move, and detect collision of projectiles"""
@@ -59,4 +58,4 @@ class Projectile:
         distance_to_target = math.sqrt(movement_vector[0]**2 + movement_vector[1]**2)
         if distance_to_target < 5:
             Projectile.fired.remove(self)
-            Hostile.enemies.remove(self.target)
+            self.target.damage(20)

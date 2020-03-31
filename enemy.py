@@ -19,7 +19,7 @@ class Hostile:
             (651, 220), (673, 229), (690, 236), (706, 243), (725, 250), (744, 260),
             (766, 259), (788, 252), (797, 248)]
 
-    def __init__(self, img, x, y, speed, display_surface):
+    def __init__(self, img, x, y, speed, health, display_surface):
         self.img_file = img
         self.img = pygame.image.load(os.path.join('assets', 'enemies', self.img_file))
         self.hostile_rect = self.img.get_rect()
@@ -27,6 +27,7 @@ class Hostile:
         self.x_coord = x
         self.y_coord = y
         self.speed = speed
+        self.health = health
         self.display_surface = display_surface
         self.waypoints = itertools.cycle(Hostile.path)
         self.target = next(self.waypoints)
@@ -34,7 +35,7 @@ class Hostile:
     def spawn(self):
         """Spawns new enemy"""
         Hostile.enemies.append(Hostile(self.img_file, self.x_coord, self.y_coord,
-                                       self.speed, self.display_surface))
+                                       self.speed, self. health, self.display_surface))
 
     def move(self):
         """Moves the enemy down the path"""
@@ -60,3 +61,10 @@ class Hostile:
     def draw(self):
         """Draws image on the screen"""
         self.display_surface.blit(self.img, (self.hostile_rect))
+
+    def damage(self, attack_power):
+        """deals damage to the creep, de-spawns it if at or below 0 health"""
+        self.health -= attack_power
+        print(self.health)
+        if self.health <= 0:
+            Hostile.enemies.remove(self)

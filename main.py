@@ -44,8 +44,8 @@ def run_game():
                 if event.key == pygame.K_ESCAPE:
                     run = False
                 if event.key == pygame.K_SPACE:
-                    Hostile('enemy.png', Hostile.path[0][0], Hostile.path[0][1], 0.25,
-                            screen).spawn()
+                    Hostile('enemy.png', Hostile.path[0][0], Hostile.path[0][1],
+                            0.25, 100, screen).spawn()
                 if event.key == pygame.K_1 or event.key == pygame.K_2:
                     tower_type = Defender.selection_dict[event.key]
             if event.type == pygame.MOUSEBUTTONDOWN and tower_type != 0:

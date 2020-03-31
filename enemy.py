@@ -3,6 +3,7 @@ import itertools
 import math
 import os
 import pygame
+#from pygame import Vector2
 
 class Hostile:
     """Hostile information"""
@@ -37,24 +38,21 @@ class Hostile:
 
     def move(self):
         """Moves the enemy down the path"""
-        distance_to_target = math.sqrt((self.x_coord - self.target[0])**2 +
-                                       (self.y_coord - self.target[1])**2)
+        movement_vector = (self.target[0] - self.x_coord, self.target[1] - self.y_coord)
+        distance_to_target = math.sqrt(movement_vector[0]**2 + movement_vector[1]**2)
+        if distance_to_target < 0.5 and next(self.waypoints) != Hostile.path[0]:
+            self.target = next(self.waypoints)
+        else:
+            normalize = (movement_vector[0]/distance_to_target,
+                            movement_vector[1]/distance_to_target)
+            direction = normalize
+            speed_x, speed_y = direction * 1
+            self.x_coord += speed_x
+            self.y_coord += speed_y
+            self.hostile_rect.center = (self.x_coord, self.y_coord)
         end = Hostile.path[-1]
         distance_to_end = math.sqrt((self.x_coord - end[0])**2 +
                                     (self.y_coord - end[1])**2)
-        if distance_to_target <= 0.5 and next(self.waypoints) != Hostile.path[0]:
-            self.target = next(self.waypoints)
-        new_x, new_y = self.x_coord, self.y_coord
-        if self.x_coord < self.target[0]:
-            new_x = self.x_coord + self.speed
-        elif self.x_coord > self.target[0]:
-            new_x = self.x_coord - self.speed
-        if self.y_coord < self.target[1]:
-            new_y = self.y_coord + self.speed
-        elif self.y_coord > self.target[1]:
-            new_y = self.y_coord - self.speed
-        self.x_coord, self.y_coord = new_x, new_y
-        self.hostile_rect.center = self.x_coord, self.y_coord
         if distance_to_end <= 10:
             Hostile.enemies.remove(self)
 

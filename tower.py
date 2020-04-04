@@ -43,7 +43,9 @@ class Defender:
                 break
 
 def create_elf_tower(x_coord, y_coord, display_surface):
+    """creates elf tower"""
     Defender("elf", x_coord, y_coord, 100, 25, display_surface).create_tower()
 
 def create_dwarf_tower(x_coord, y_coord, display_surface):
+    """creates dwarf tower"""
     Defender("dwarf", x_coord, y_coord, 400, 50, display_surface).create_tower()

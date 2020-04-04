@@ -8,7 +8,7 @@ class Projectile:
 
     fired = []
 
-    def __init__(self, img, x, y, display_surface, target, direction=0):
+    def __init__(self, img, x, y, display_surface, target, attack_power, direction=0):
         self.img_file = img
         self.img = pygame.image.load(os.path.join('assets', 'towers', self.img_file))
         self.ammo_rect = self.img.get_rect()
@@ -18,6 +18,7 @@ class Projectile:
         self.display_surface = display_surface
         self.target = target
         self.direction = direction
+        self.attack_power = attack_power
 
     def draw(self):
         """Draws the projectile onto the screen"""
@@ -58,4 +59,4 @@ class Projectile:
         distance_to_target = math.sqrt(movement_vector[0]**2 + movement_vector[1]**2)
         if distance_to_target < 5:
             Projectile.fired.remove(self)
-            self.target.damage(20)
+            self.target.damage(self.attack_power)

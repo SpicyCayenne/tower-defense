@@ -7,7 +7,7 @@ import pygame
 import level
 from level import Level
 from player import PLAYER
-from tower import Defender
+from tower import Defender, create_elf_tower, create_dwarf_tower
 from enemy import Hostile
 from projectiles import Projectile
 
@@ -20,9 +20,11 @@ def run_game():
     screen = pygame.display.set_mode((800, 800))
     pygame.display.set_caption("Tower Defense")
 
-    elf_tower_attack = dwarf_tower_attack = spawn_creep = 26
+    spawn_creep = 26
+    elf_tower_attack = 27
+    dwarf_tower_attack = 28
     pygame.time.set_timer(elf_tower_attack, 800)
-    pygame.time.set_timer(dwarf_tower_attack, 2000)
+    pygame.time.set_timer(dwarf_tower_attack, 2500)
     pygame.time.set_timer(spawn_creep, 1000)
 
     level_count = 0
@@ -73,9 +75,14 @@ def run_game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            if event.type == 26:
+            if event.type == elf_tower_attack:
                 for tower in Defender.towers:
-                    tower.attack()
+                    if tower.tower_type == "elf":
+                        tower.attack()
+            if event.type == dwarf_tower_attack:
+                for tower in Defender.towers:
+                    if tower.tower_type == "dwarf":
+                        tower.attack()
                 if random.randrange(0, 100) < this_level.spawn_rate and this_level.enemy_count > 0:
                     Hostile('goblin.png', Hostile.path[0][0], Hostile.path[0][1],
                             0.25, 100, screen).spawn()
@@ -95,7 +102,11 @@ def run_game():
                 for loc in Level.tower_coords:
                     distance = math.sqrt((mouse_x - loc[0])**2 + (mouse_y - loc[1])**2)
                     if distance <= 20:
-                        Defender(tower_type, loc[0], loc[1], screen).create_tower()
+                        if tower_type == "elf":
+                            create_elf_tower(loc[0], loc[1], screen)
+                        elif tower_type == "dwarf":
+                            create_dwarf_tower(loc[0], loc[1], screen)
+                        #Defender(tower_type, loc[0], loc[1], 100, screen).create_tower()
             elif event.type == pygame.MOUSEBUTTONDOWN and tower_type == 0:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 #coords.append((mouse_x, mouse_y))

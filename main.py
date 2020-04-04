@@ -77,14 +77,14 @@ def run_game():
                 for tower in Defender.towers:
                     tower.attack()
                 if random.randrange(0, 100) < this_level.spawn_rate and this_level.enemy_count > 0:
-                    Hostile('enemy.png', Hostile.path[0][0], Hostile.path[0][1],
+                    Hostile('goblin.png', Hostile.path[0][0], Hostile.path[0][1],
                             0.25, 100, screen).spawn()
                     this_level.enemy_count -= 1
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     run = False
                 if event.key == pygame.K_SPACE and this_level.enemy_count > 0:
-                    Hostile('enemy.png', Hostile.path[0][0], Hostile.path[0][1],
+                    Hostile('goblin.png', Hostile.path[0][0], Hostile.path[0][1],
                             0.25, 100, screen).spawn()
                     this_level.enemy_count -= 1
                 if event.key == pygame.K_1 or event.key == pygame.K_2:

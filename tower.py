@@ -14,11 +14,11 @@ class Defender:
         self.tower_type = tower_type
         self.img = pygame.image.load(os.path.join('assets', 'towers',
                                                   self.tower_type + "_tower.png")).convert()
-        self.img = pygame.transform.scale(self.img, (25, 25))
+        self.img = pygame.transform.scale(self.img, (20, 20))
         self.display_surface = display_surface
         self.attack_radius = 100
         self.tower_rect = self.img.get_rect()
-        self.tower_rect.center = x, y
+        self.tower_rect.center = (x, y)
 
     def create_tower(self):
         """Creates a tower of the selected type and scales to the correct size"""
